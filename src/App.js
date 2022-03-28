@@ -25,7 +25,7 @@ function App() {
   
   return (
     <div>
-      <h2>Expense Tracker</h2>
+      <h2>Expense Tracker!</h2>
       <Expenses items={db} />
     </div>
   );
