@@ -23,11 +23,15 @@ function App() {
       date: new Date(2021, 5, 12),
     },
   ];
+
+  const addExpenseHandler = expense =>{
+    console.log(expense);
+  };
   
   return (
     <div>
       <h2>Expense Tracker!</h2>
-      <NewExpense />
+      <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={db} />
     </div>
   );
