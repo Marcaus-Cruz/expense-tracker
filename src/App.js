@@ -1,3 +1,4 @@
+import Header from "./components/expenses/Header";
 import Expenses from "./components/expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 
@@ -30,7 +31,7 @@ function App() {
   
   return (
     <div>
-      <h2>Expense Tracker!</h2>
+      <Header />
       <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={db} />
     </div>

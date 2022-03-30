@@ -1,0 +1,39 @@
+.header {
+    display:inline-table;
+  background-color: #95c4c3;
+  color: #376160;
+  min-width: 100%;
+  height: 100px;
+  margin: 20px auto;
+  padding: 25px;
+}
+
+.right{
+    text-align: right;
+    justify-content: right;
+    justify-self: right;
+    margin: 0px;
+    /* background-color: white;debugging */
+    float: right;
+    min-width: 25%;
+    /* display: inline-flex; */
+}
+
+.right button {
+float: right;
+  font: inherit;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  border: 2px solid #376160;
+  background-color: white;
+  color: #376160;
+  border-radius: 12px;
+  margin-right: 1rem;
+}
+
+.right button:hover {
+  border: 2px solid white;
+  color: white;
+  background-color: #376160;
+  border-color: #376160;
+}
