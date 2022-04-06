@@ -1,5 +1,6 @@
 import "../css/Header.css";
 
+//Header component for entire page
 function Header() {
   return (
     <div className="header">

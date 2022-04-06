@@ -27,11 +27,18 @@ const ExpenseForm = (props) => {
     //prevents HTTP request from server
     event.preventDefault();
 
+    //create object with all data entered
     const newExpenseData = {
       title: enteredTitle,
       amount: enteredAmount,
       date: new Date(enteredDate),
     };
+
+    //checks if title is entered. If not, prevent submission.
+    if(newExpenseData.title.trim() === ''){
+      alert("Must enter a title for this expense");
+      return false;
+    }
 
     //TODO: Throw this into DB
     //console.log(newExpenseData);

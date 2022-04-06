@@ -4,8 +4,10 @@ import '../css/Card.css';
 import ExpenseDate from './ExpenseDate.js';
 import Card from "../UI/Card.js";
 
+//Entire expense card component
 function ExpenseItem(props) {
 
+  //embbed date and return extracted expense from expenses props
   return (
     <Card className="expense-item">
       <ExpenseDate date={props.date}/>
