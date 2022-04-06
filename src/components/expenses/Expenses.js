@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import ExpenseItem from "./ExpenseItem";
+import ExpensesList from "./ExpensesList";
 import Card from "../UI/Card.js";
 import Filter from "../graphs/Filter";
 
@@ -18,25 +18,11 @@ function Expenses(props) {
     return expense.date.getFullYear().toString() === year;
   });
 
-  // Default value for expenses
-  let content = <h2>No expenses found for {year}</h2>;
-  // If stuff, map stuff and store it in content
-  if (currentYearExpenses.length > 0) {
-    content = currentYearExpenses.map((expense) => (
-      <ExpenseItem
-        key={expense.id}
-        title={expense.title}
-        amount={expense.amount}
-        date={expense.date}
-      />
-    ));
-  }
-
   //return all current year expenses
   return (
     <Card className="expenses">
       <Filter selected={year} onGetYear={getYearHandler} />
-      {content}
+      <ExpensesList items={currentYearExpenses} year={year}/>
     </Card>
   );
 }
