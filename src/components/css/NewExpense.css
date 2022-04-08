@@ -27,6 +27,10 @@
     background-color: #376160;
     border-color: #376160;
   }
+
+  h3{
+    color: black;
+  }
   
   /* .new-expense button.alternative {
     color: #220131;

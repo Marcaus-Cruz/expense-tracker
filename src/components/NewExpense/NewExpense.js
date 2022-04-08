@@ -5,7 +5,8 @@ import ExpenseForm from "./ExpenseForm";
 import "../css/NewExpense.css";
 
 const NewExpense = (props) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
 
   const storeExpenseHandler = (enteredExpense) => {
     const expense = {
@@ -15,31 +16,47 @@ const NewExpense = (props) => {
     };
     //send to App.js
     props.onGetExpense(expense);
-    setIsEditing(false);
+    setIsAdding(false);
   };
 
-  const setEditingHandler = () => {
-    setIsEditing(true);
+  const setAddingHandler = () => {
+    setIsAdding(true);
   };
 
-  const stopEditingHandler = () => {
-    setIsEditing(false);
+  const stopAddingHandler = () => {
+    setIsAdding(false);
+  };
+
+  const setRemoveHandler = () => {
+    setIsRemoving(true);
+  };
+
+  const stopRemoveHandler = () => {
+    setIsRemoving(false);
   };
 
   return (
     <div className="new-expense">
-      {!isEditing && (
+      {!isAdding && !isRemoving && (
         <div>
-        {/* TODO: Add editing capabilities to remove */}
-          <button>Edit Expense</button>{" "}
-          <button onClick={setEditingHandler}>Add Expense</button>
+          {/* TODO: Add editing capabilities to remove */}
+          <button onClick={setRemoveHandler}>Remove Expense</button>{" "}
+          <button onClick={setAddingHandler}>Add Expense</button>
         </div>
       )}
-      {isEditing && (
+      {isAdding && !isRemoving && (
         <ExpenseForm
           onStoreExpense={storeExpenseHandler}
-          onCancel={stopEditingHandler}
+          onCancel={stopAddingHandler}
         />
+      )}
+      {isRemoving && (
+        <div>
+          {" "}
+          <h3>
+            Which expense would you like to remove?
+          </h3> <button onClick={stopRemoveHandler}>Cancel</button>{" "}
+        </div>
       )}
     </div>
   );
