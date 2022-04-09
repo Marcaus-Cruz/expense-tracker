@@ -1,5 +1,5 @@
 .header {
-    display:inline-table;
+  display: inline-table;
   background-color: #95c4c3;
   color: #376160;
   min-width: 100%;
@@ -8,8 +8,19 @@
   padding: 25px;
 }
 
+.left{
+  float: left;
+  text-align: center;
+ 
+  display: flex;
+  flex-direction: right;
+  justify-content: space-evenly;
+  margin: 10px auto;
+  padding: 0 25px;
+}
+
 .right{
-    text-align: right;
+    text-align: center;
     justify-content: right;
     justify-self: right;
     margin: 0px;
