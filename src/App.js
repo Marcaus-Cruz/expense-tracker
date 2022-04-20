@@ -79,9 +79,13 @@ function App() {
     });
   };
 
+  const signOutHandler = () => {
+    setUser();
+  };
+
   return (
     <div>
-      <Header username={user}/>
+      <Header username={user} onSignOut={signOutHandler}/>
       <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={expenses} />
     </div>
