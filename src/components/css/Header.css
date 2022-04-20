@@ -30,6 +30,13 @@
     /* display: inline-flex; */
 }
 
+.input{
+  border-radius: 20px;
+  padding: 5px;
+  margin: 25px 10px;
+  text-align: center;
+}
+
 .right button {
 float: right;
   font: inherit;

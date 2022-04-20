@@ -85,9 +85,12 @@ function App() {
   const signOutHandler = () => {
     setUserName("");
     setUserNumber();
+    setUserPass("");
   };
 
-  const signInHandler = () => {
+  const signInHandler = (enteredUser, enteredPass) => {
+    setUserName(enteredUser);
+    setUserPass(enteredPass);
 
     const fetchUsers = async () => {
       setIsLoading(true);
@@ -108,6 +111,9 @@ function App() {
         console.log(responseData[key].user + " " +responseData[key].pass);
          if(responseData[key].user === userName && responseData[key].pass === userPass){
             setUserNumber(key);
+         } else{
+           console.log("Sign in Failed");
+           return;
          }
       }
     };
@@ -117,10 +123,6 @@ function App() {
       setHttpError(error.message);
     });
 
-
-    setUserName("Marcaus-Cruz")
-    setUserPass("");
-    setUserNumber(0);
   };
 
   return (
