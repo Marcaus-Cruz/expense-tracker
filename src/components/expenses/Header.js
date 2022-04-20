@@ -1,4 +1,4 @@
-import { useState } from "react";
+//import { useState } from "react";
 
 import SignInForm from "../UI/SignInForm";
 
@@ -6,8 +6,8 @@ import "../css/Header.css";
 import logoUrl from "../UI/favicon.ico";
 
 //Header component for entire page
+//possibly move fetching users and signing in/up into this component
 function Header(props) {
-  const [signedIn, setSignedIn] = useState(false);
 
   return (
     <div className="header">
@@ -17,13 +17,13 @@ function Header(props) {
           Expense Tracker
         </h2>
       </div>
-      {signedIn && (
+      {props.username !== "" && (
         <div className="right">
           <p>{props.username}</p>{" "}
           <button onClick={props.onSignOut}>Sign Out</button>
         </div>
       )}
-      {!signedIn && (
+      {props.username === "" && (
         <div className="right">
           <SignInForm onSignIn={props.onSignIn} />
         </div>

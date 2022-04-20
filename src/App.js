@@ -37,6 +37,7 @@ function App() {
       const loadedExpenses = [];
 
       for (const key in responseData[userNumber]) {
+        console.log(key);
         loadedExpenses.push({
           id: responseData[userNumber][key],
           title: responseData[userNumber][key].name,
@@ -89,8 +90,11 @@ function App() {
   };
 
   const signInHandler = (enteredUser, enteredPass) => {
+    console.log(enteredUser + " " + enteredPass);
     setUserName(enteredUser);
     setUserPass(enteredPass);
+
+    console.log(userName + " " + userPass);
 
     const fetchUsers = async () => {
       setIsLoading(true);
@@ -109,11 +113,12 @@ function App() {
 
       for(const key in responseData){
         console.log(responseData[key].user + " " +responseData[key].pass);
-         if(responseData[key].user === userName && responseData[key].pass === userPass){
+         if(responseData[key].user === enteredUser && responseData[key].pass === enteredPass){
             setUserNumber(key);
+            return;
          } else{
            console.log("Sign in Failed");
-           return;
+           //return;
          }
       }
     };
