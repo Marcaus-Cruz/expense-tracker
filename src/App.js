@@ -15,10 +15,9 @@ function App() {
 
   const [userName, setUserName] = useState("");
 
-  const [userPass,setUserPass] = useState("");
+  const [userPass, setUserPass] = useState("");
 
   useEffect(() => {
-
     const fetchExpenses = async () => {
       setIsLoading(true);
 
@@ -46,20 +45,21 @@ function App() {
             responseData[userNumber][key].date.year,
             responseData[userNumber][key].date.month,
             responseData[userNumber][key].date.day
-          )
+          ),
         }); //push
       } //for loop
 
       setExpenses(loadedExpenses);
       setIsLoading(false);
-    };//fetchExpenses
+    }; //fetchExpenses
 
-    fetchExpenses().then().catch((error) => {
-      setIsLoading(false);
-      setHttpError(error.message);
-    });
-
-  }, [userNumber, userName]);//useEffect
+    fetchExpenses()
+      .then()
+      .catch((error) => {
+        setIsLoading(false);
+        setHttpError(error.message);
+      });
+  }, [userNumber, userName]); //useEffect
 
   if (isLoading) {
     return (
@@ -84,8 +84,8 @@ function App() {
   };
 
   const signOutHandler = () => {
-    setUserName("");
     setUserNumber();
+    setUserName("");
     setUserPass("");
   };
 
@@ -111,33 +111,48 @@ function App() {
       //convert response to json format
       const responseData = await response.json();
 
-      for(const key in responseData){
-        console.log(responseData[key].user + " " +responseData[key].pass);
-         if(responseData[key].user === enteredUser && responseData[key].pass === enteredPass){
-            setUserNumber(key);
-            return;
-         } else{
-           console.log("Sign in Failed");
-           //return;
-         }
+      for (const key in responseData) {
+        console.log(responseData[key].user + " " + responseData[key].pass);
+        if (
+          responseData[key].user === enteredUser &&
+          responseData[key].pass === enteredPass
+        ) {
+          setUserNumber(key);
+          return;
+        } else {
+          alert("Invalid log in, please try again");
+          setUserName("");
+          setUserPass("");
+          console.log("Sign in Failed");
+          return;
+        }
       }
     };
 
-    fetchUsers().then().catch((error) => {
-      setIsLoading(false);
-      setHttpError(error.message);
-    });
-
+    fetchUsers()
+      .then()
+      .catch((error) => {
+        setIsLoading(false);
+        setHttpError(error.message);
+      });
   };
 
   return (
     <div>
-      <Header username={userName} onSignOut={signOutHandler} onSignIn={signInHandler}/>
+      <Header
+        username={userName}
+        onSignOut={signOutHandler}
+        onSignIn={signInHandler}
+      />
       <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={expenses} />
-      {userName === "" && <p style={{color: "black", textAlign: "center"}}>Please sign in to find expenses</p>}
+      {userName === "" && (
+        <p style={{ color: "black", textAlign: "center" }}>
+          Please sign in to find expenses
+        </p>
+      )}
     </div>
   );
-}//app
+} //app
 
 export default App;
