@@ -11,7 +11,7 @@ function App() {
 
   const [httpError, setHttpError] = useState(false);
 
-  const [user, setUser] = useState(1);
+  const [user, setUser] = useState(0);
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -47,14 +47,14 @@ function App() {
 
       setExpenses(loadedExpenses);
       setIsLoading(false);
-    };
+    };//fetchExpenses
 
     fetchExpenses().then().catch((error) => {
       setIsLoading(false);
       setHttpError(error.message);
     });
 
-  }, []);//use effect
+  }, [user]);//useEffect
 
   if (isLoading) {
     return (
@@ -82,12 +82,16 @@ function App() {
     setUser();
   };
 
+  const signInHandler = () => {
+    setUser(0);
+  };
+
   return (
     <div>
-      <Header username={user} onSignOut={signOutHandler}/>
+      <Header username={user} onSignOut={signOutHandler} onSignIn={signInHandler}/>
       <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={expenses} />
-      {!user && <p style={{color: "black", textAlign: "center"}}>Please sign in to find expenses</p>}
+      {user === undefined && <p style={{color: "black", textAlign: "center"}}>Please sign in to find expenses</p>}
     </div>
   );
 }//app
