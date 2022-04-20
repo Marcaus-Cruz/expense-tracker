@@ -11,7 +11,7 @@ function App() {
 
   const [httpError, setHttpError] = useState(false);
 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(1);
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -31,15 +31,15 @@ function App() {
 
       const loadedExpenses = [];
 
-      for (const key in responseData) {
+      for (const key in responseData[user]) {
         loadedExpenses.push({
-          id: responseData[key].id,
-          title: responseData[key].name,
-          amount: responseData[key].amount,
+          id: responseData[user][key],
+          title: responseData[user][key].name,
+          amount: responseData[user][key].price,
           date: new Date(
-            responseData[key].date.year,
-            responseData[key].date.month,
-            responseData[key].date.day
+            responseData[user][key].date.year,
+            responseData[user][key].date.month,
+            responseData[user][key].date.day
           )
         }); //push
         console.log(loadedExpenses);
@@ -47,7 +47,6 @@ function App() {
 
       setExpenses(loadedExpenses);
       setIsLoading(false);
-      setUser("Marcaus");
     };
 
     fetchExpenses().then().catch((error) => {
@@ -88,6 +87,7 @@ function App() {
       <Header username={user} onSignOut={signOutHandler}/>
       <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={expenses} />
+      {!user && <p style={{color: "black", textAlign: "center"}}>Please sign in to find expenses</p>}
     </div>
   );
 }//app
