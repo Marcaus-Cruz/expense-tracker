@@ -11,6 +11,8 @@ function App() {
 
   const [httpError, setHttpError] = useState(false);
 
+  const [user, setUser] = useState();
+
   useEffect(() => {
     const fetchExpenses = async () => {
       setIsLoading(true);
@@ -45,6 +47,7 @@ function App() {
 
       setExpenses(loadedExpenses);
       setIsLoading(false);
+      setUser("Marcaus");
     };
 
     fetchExpenses().then().catch((error) => {
@@ -70,8 +73,6 @@ function App() {
     );
   }
 
-
-
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
@@ -80,7 +81,7 @@ function App() {
 
   return (
     <div>
-      <Header />
+      <Header username={user}/>
       <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={expenses} />
     </div>
