@@ -11,9 +11,14 @@ function App() {
 
   const [httpError, setHttpError] = useState(false);
 
-  const [user, setUser] = useState(0);
+  const [userNumber, setUserNumber] = useState();
+
+  const [userName, setUserName] = useState("");
+
+  const [userPass,setUserPass] = useState("");
 
   useEffect(() => {
+
     const fetchExpenses = async () => {
       setIsLoading(true);
 
@@ -31,18 +36,17 @@ function App() {
 
       const loadedExpenses = [];
 
-      for (const key in responseData[user]) {
+      for (const key in responseData[userNumber]) {
         loadedExpenses.push({
-          id: responseData[user][key],
-          title: responseData[user][key].name,
-          amount: responseData[user][key].price,
+          id: responseData[userNumber][key],
+          title: responseData[userNumber][key].name,
+          amount: responseData[userNumber][key].price,
           date: new Date(
-            responseData[user][key].date.year,
-            responseData[user][key].date.month,
-            responseData[user][key].date.day
+            responseData[userNumber][key].date.year,
+            responseData[userNumber][key].date.month,
+            responseData[userNumber][key].date.day
           )
         }); //push
-        console.log(loadedExpenses);
       } //for loop
 
       setExpenses(loadedExpenses);
@@ -54,7 +58,7 @@ function App() {
       setHttpError(error.message);
     });
 
-  }, [user]);//useEffect
+  }, [userNumber, userName]);//useEffect
 
   if (isLoading) {
     return (
@@ -79,19 +83,52 @@ function App() {
   };
 
   const signOutHandler = () => {
-    setUser();
+    setUserName("");
+    setUserNumber();
   };
 
   const signInHandler = () => {
-    setUser(0);
+
+    const fetchUsers = async () => {
+      setIsLoading(true);
+
+      //Grab users from db
+      const response = await fetch(
+        "https://exp-track-bdba3-default-rtdb.firebaseio.com/users.json"
+      );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong when fetching users!");
+      }
+
+      //convert response to json format
+      const responseData = await response.json();
+
+      for(const key in responseData){
+        console.log(responseData[key].user + " " +responseData[key].pass);
+         if(responseData[key].user === userName && responseData[key].pass === userPass){
+            setUserNumber(key);
+         }
+      }
+    };
+
+    fetchUsers().then().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
+
+
+    setUserName("Marcaus-Cruz")
+    setUserPass("");
+    setUserNumber(0);
   };
 
   return (
     <div>
-      <Header username={user} onSignOut={signOutHandler} onSignIn={signInHandler}/>
+      <Header username={userName} onSignOut={signOutHandler} onSignIn={signInHandler}/>
       <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={expenses} />
-      {user === undefined && <p style={{color: "black", textAlign: "center"}}>Please sign in to find expenses</p>}
+      {userName === "" && <p style={{color: "black", textAlign: "center"}}>Please sign in to find expenses</p>}
     </div>
   );
 }//app
