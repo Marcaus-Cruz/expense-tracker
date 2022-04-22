@@ -93,6 +93,16 @@ function App() {
 
   const signInHandler = (enteredUser, enteredPass) => {
     console.log(enteredUser + " " + enteredPass);
+
+    enteredUser = enteredUser.trim();
+    enteredPass = enteredPass.trim();
+    //validate
+    if(enteredUser === "" || enteredPass === ""){
+      alert("Please make sure you enter a username and password");
+      return;
+    }
+
+
     setUserName(enteredUser);
     setUserPass(enteredPass);
 
@@ -111,6 +121,7 @@ function App() {
       //convert response to json format
       const responseData = await response.json();
 
+      //check to see if user exists
       for (const key in responseData) {
         console.log(responseData[key].user + " " + responseData[key].pass);
         if (
@@ -119,14 +130,14 @@ function App() {
         ) {
           setUserNumber(key);
           return;
-        } else {
-          alert("Invalid log in, please try again");
-          setUserName("");
-          setUserPass("");
-          console.log("Sign in Failed");
-          return;
-        }
-      }
+        }//endif
+      }//end for
+      
+      //user doesn't exist
+      alert("Invalid log in, please try again");
+      setUserName("");
+      setUserPass("");
+      console.log("Sign in Failed");
     };
 
     fetchUsers()
@@ -139,70 +150,72 @@ function App() {
 
   const signUpHandler = (enteredUser, enteredPass) => {
     console.log(enteredUser + " " + enteredPass);
+    
+    enteredUser = enteredUser.trim();
+    enteredPass = enteredPass.trim();
+    //validate
+    if(enteredUser === "" || enteredPass === ""){
+      alert("Please make sure you enter a username and password");
+      return;
+    }
+
+
     setUserName(enteredUser);
     setUserPass(enteredPass);
 
 
-    // Push Function
-    const pushNewUser = (enteredUser, enteredPass, newID) => {
-      console.log(newID);
-      //  database
-      //    .ref("users")
-      //    .set({
-      //      newID
-      //    })
-      //    .catch(alert);
-      
-        
+        // Push Function
+        const pushNewUser = (enteredUser, enteredPass, newID) => {
+          console.log(newID);      
+            database
+            .ref(`users/${newID}`)
+            .set({
+              user: enteredUser,
+                pass: enteredPass
+            })
+            .catch(alert);
+        }; //endPushNewUser
 
-        database
-        .ref(`users/${newID}`)
-        .set({
-          user: enteredUser,
-            pass: enteredPass
-        })
-        .catch(alert);
-    }; //endPushNewUser
+      const fetchUsers = async () => {
+        console.log("in fetch users");
+        setIsLoading(true);
 
-    const fetchUsers = async () => {
-      console.log("in fetch users");
-      setIsLoading(true);
+        //Grab users from db
+        const response = await fetch(
+          "https://exp-track-bdba3-default-rtdb.firebaseio.com/users.json"
+        );
 
-      //Grab users from db
-      const response = await fetch(
-        "https://exp-track-bdba3-default-rtdb.firebaseio.com/users.json"
-      );
+        if (!response.ok) {
+          throw new Error("Something went wrong when fetching users!");
+        }
 
-      if (!response.ok) {
-        throw new Error("Something went wrong when fetching users!");
-      }
+        //convert response to json format
+        const responseData = await response.json();
 
-      //convert response to json format
-      const responseData = await response.json();
+        //check to see if user already exists
+        for (const key in responseData) {
+          console.log(responseData[key].user + " " + responseData[key].pass);
+          if (
+            responseData[key].user === enteredUser &&
+            responseData[key].pass === enteredPass
+          ) {
+            setUserName("");
+            setUserPass("");
+            alert("Try signing in, instead.");
+            return;
+          }//if
+        }//for
 
-      //check to see if user already exists
-      for (const key in responseData) {
-        console.log(responseData[key].user + " " + responseData[key].pass);
-        if (
-          responseData[key].user === enteredUser &&
-          responseData[key].pass === enteredPass
-        ) {
-          setUserName("");
-          setUserPass("");
-          alert("Try signing in, instead.");
-          return;
-        }//if
-      }//for
+        //if user does not exist
+        const newID = responseData.length; //auto increment
+        //Already set above
+        // setUserName(enteredUser);
+        // setUserPass(enteredPass);
+        setUserNumber(newID);
 
-      //if not
-      const newID = responseData.length;
-          setUserName(enteredUser);
-          setUserPass(enteredPass);
-          setUserNumber(newID);
-
-          //push new user
-          pushNewUser(enteredUser, enteredPass, newID);
-    };
+        //push new user
+        pushNewUser(enteredUser, enteredPass, newID);
+      };
 
     fetchUsers()
       .then()
