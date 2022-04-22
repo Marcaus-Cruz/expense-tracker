@@ -96,8 +96,6 @@ function App() {
     setUserName(enteredUser);
     setUserPass(enteredPass);
 
-    console.log(userName + " " + userPass);
-
     const fetchUsers = async () => {
       setIsLoading(true);
 
@@ -144,9 +142,30 @@ function App() {
     setUserName(enteredUser);
     setUserPass(enteredPass);
 
-    console.log(userName + " " + userPass);
+
+    // Push Function
+    const pushNewUser = (enteredUser, enteredPass, newID) => {
+      console.log(newID);
+      //  database
+      //    .ref("users")
+      //    .set({
+      //      newID
+      //    })
+      //    .catch(alert);
+      
+        
+
+        database
+        .ref(`users/${newID}`)
+        .set({
+          user: enteredUser,
+            pass: enteredPass
+        })
+        .catch(alert);
+    }; //endPushNewUser
 
     const fetchUsers = async () => {
+      console.log("in fetch users");
       setIsLoading(true);
 
       //Grab users from db
@@ -161,6 +180,7 @@ function App() {
       //convert response to json format
       const responseData = await response.json();
 
+      //check to see if user already exists
       for (const key in responseData) {
         console.log(responseData[key].user + " " + responseData[key].pass);
         if (
@@ -171,36 +191,17 @@ function App() {
           setUserPass("");
           alert("Try signing in, instead.");
           return;
-        } else {
-          const newID = responseData.length;
+        }//if
+      }//for
+
+      //if not
+      const newID = responseData.length;
           setUserName(enteredUser);
           setUserPass(enteredPass);
           setUserNumber(newID);
 
-          // Push Function
-          const pushNewUser = () => {
-            database
-              .ref("users")
-              .set({
-                id: newID,
-              })
-              .catch(alert);
-
-
-              database
-              .ref("users/"+newID)
-              .set({
-                user: enteredUser,
-                  pass: enteredPass
-              })
-              .catch(alert);
-          }; //endPushNewUser
-
           //push new user
-          pushNewUser();
-          return;
-        }
-      }
+          pushNewUser(enteredUser, enteredPass, newID);
     };
 
     fetchUsers()
