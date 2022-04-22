@@ -4,6 +4,8 @@ import Header from "./components/expenses/Header";
 import Expenses from "./components/expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 
+import database from "./firebase";
+
 function App() {
   const [expenses, setExpenses] = useState([]);
 
@@ -137,12 +139,85 @@ function App() {
       });
   };
 
+  const signUpHandler = (enteredUser, enteredPass) => {
+    console.log(enteredUser + " " + enteredPass);
+    setUserName(enteredUser);
+    setUserPass(enteredPass);
+
+    console.log(userName + " " + userPass);
+
+    const fetchUsers = async () => {
+      setIsLoading(true);
+
+      //Grab users from db
+      const response = await fetch(
+        "https://exp-track-bdba3-default-rtdb.firebaseio.com/users.json"
+      );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong when fetching users!");
+      }
+
+      //convert response to json format
+      const responseData = await response.json();
+
+      for (const key in responseData) {
+        console.log(responseData[key].user + " " + responseData[key].pass);
+        if (
+          responseData[key].user === enteredUser &&
+          responseData[key].pass === enteredPass
+        ) {
+          setUserName("");
+          setUserPass("");
+          alert("Try signing in, instead.");
+          return;
+        } else {
+          const newID = responseData.length;
+          setUserName(enteredUser);
+          setUserPass(enteredPass);
+          setUserNumber(newID);
+
+          // Push Function
+          const pushNewUser = () => {
+            database
+              .ref("users")
+              .set({
+                id: newID,
+              })
+              .catch(alert);
+
+
+              database
+              .ref("users/"+newID)
+              .set({
+                user: enteredUser,
+                  pass: enteredPass
+              })
+              .catch(alert);
+          }; //endPushNewUser
+
+          //push new user
+          pushNewUser();
+          return;
+        }
+      }
+    };
+
+    fetchUsers()
+      .then()
+      .catch((error) => {
+        setIsLoading(false);
+        setHttpError(error.message);
+      });
+  };
+
   return (
     <div>
       <Header
         username={userName}
         onSignOut={signOutHandler}
         onSignIn={signInHandler}
+        onSignUp={signUpHandler}
       />
       <NewExpense onGetExpense={addExpenseHandler} />
       <Expenses items={expenses} />

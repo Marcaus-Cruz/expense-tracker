@@ -25,7 +25,7 @@ function Header(props) {
       )}
       {props.username === "" && (
         <div className="right">
-          <SignInForm onSignIn={props.onSignIn} />
+          <SignInForm onSignIn={props.onSignIn} onSignUp={props.onSignUp} />
         </div>
       )}
     </div>

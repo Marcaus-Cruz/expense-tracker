@@ -27,7 +27,7 @@ const SignInForm = (props) => {
         //  //sign up
           else if (inOrUp === "up"){
               console.log("Signing up");
-              //props.signUp(enteredUser, enteredPass);
+              props.onSignUp(enteredUser, enteredPass);
           } else {
               console.log("ERROR SIGNING IN OR UP");
              return;
