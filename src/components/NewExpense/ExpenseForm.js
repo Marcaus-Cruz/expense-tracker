@@ -40,9 +40,6 @@ const ExpenseForm = (props) => {
       return false;
     }
 
-    //TODO: Throw this into DB
-    //console.log(newExpenseData);
-
     //Send to NewExpense by calling that prop function associated with expense form
     props.onStoreExpense(newExpenseData);
 
