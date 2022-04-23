@@ -233,7 +233,7 @@ function App() {
         onSignIn={signInHandler}
         onSignUp={signUpHandler}
       />
-      <NewExpense onGetExpense={addExpenseHandler} />
+      <NewExpense userID={userNumber} onGetExpense={addExpenseHandler} />
       <Expenses items={expenses} />
       {userName === "" && (
         <p style={{ color: "black", textAlign: "center" }}>

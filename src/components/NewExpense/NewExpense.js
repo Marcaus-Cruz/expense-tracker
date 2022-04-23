@@ -15,7 +15,7 @@ const NewExpense = (props) => {
   //database insertion
   const storeExpenseHandler = (enteredExpense) => {
     // Push Function
-    const pushNewExpense = (enteredExpense, userID) => {
+    const pushNewExpense = async (enteredExpense, userID) => {
       console.log(userID);
 
       //Grab expenses from db
@@ -30,7 +30,10 @@ const NewExpense = (props) => {
       //convert response to json format
       const responseData = await response.json();
 
-      const itemID = responseData[userID].length;
+      const itemID = Object.keys(responseData[userID]).length;
+      console.log(responseData[userID]);
+      console.log(itemID);
+
 
       database
         .ref(`expenses/${userID}/${itemID}`)
@@ -51,20 +54,25 @@ const NewExpense = (props) => {
 
 
 
-    const expense = {
-      ...enteredExpense,
-      // Placeholder for now --> will not need this once db is connected
-      id: Math.random.toString(),
-    };
+    // const expense = {
+    //   ...enteredExpense,
+    //   // Placeholder for now --> will not need this once db is connected
+    //   id: Math.random.toString(),
+    // };
+
+
     //send to App.js
-    props.onGetExpense(expense);
+    //props.onGetExpense(expense);
+    pushNewExpense(enteredExpense, props.userID).then().catch((error) => {
+      console.log("Something went wrong");
+    })
     setIsAdding(false);
   };
 
 
 
 
-  
+
 
   const setAddingHandler = () => {
     setIsAdding(true);
