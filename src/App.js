@@ -38,7 +38,7 @@ function App() {
       const loadedExpenses = [];
 
       for (const key in responseData[userNumber]) {
-        console.log(key);
+        console.log(responseData[userNumber][key]);
         loadedExpenses.push({
           id: responseData[userNumber][key],
           title: responseData[userNumber][key].name,

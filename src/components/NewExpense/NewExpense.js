@@ -9,7 +9,7 @@ const NewExpense = (props) => {
   const [isAdding, setIsAdding] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
 
-
+  let newItemID = null;
 
 
   //database insertion
@@ -31,8 +31,6 @@ const NewExpense = (props) => {
       const responseData = await response.json();
 
       const itemID = Object.keys(responseData[userID]).length;
-      console.log(responseData[userID]);
-      console.log(itemID);
 
 
       database
@@ -45,28 +43,27 @@ const NewExpense = (props) => {
 
         //set date
         database.ref(`expenses/${userID}/${itemID}/date`).set({
-          month: enteredExpense.date.toLocaleString("en-US", { month: "long" }),
+          //month: enteredExpense.date.toLocaleString("en-US", { month: "long" }),
+          month: enteredExpense.date.getMonth(),
           day: enteredExpense.date.toLocaleString("en-US", { day: "2-digit" }),
           year: enteredExpense.date.getFullYear()
         }).catch(alert);
+        newItemID = itemID;
     }; //endPushNewItem
 
 
 
-
-    // const expense = {
-    //   ...enteredExpense,
-    //   // Placeholder for now --> will not need this once db is connected
-    //   id: Math.random.toString(),
-    // };
-
-
-    //send to App.js
-    //props.onGetExpense(expense);
     pushNewExpense(enteredExpense, props.userID).then().catch((error) => {
       console.log("Something went wrong");
     })
     setIsAdding(false);
+    const expense = {
+      ...enteredExpense,
+      id: newItemID
+    };
+
+    //send to App.js for page refresh
+    props.onGetExpense(expense);
   };
 
 
