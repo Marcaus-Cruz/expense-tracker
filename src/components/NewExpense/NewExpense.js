@@ -15,7 +15,7 @@ const NewExpense = (props) => {
   const storeExpenseHandler = (enteredExpense) => {
     // Push Function
     const pushNewExpense = async (enteredExpense, userID) => {
-      const itemID = 0;
+      let itemID = 0;
 
 
       //Grab expenses from db
