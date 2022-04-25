@@ -19,10 +19,29 @@ function App() {
 
   const [userPass, setUserPass] = useState("");
 
+  const [isRemoving, setIsRemoving] = useState(false);
+
+  // persistent data upon page refresh
+  //
+  // var getInitialUser = () => {
+  //   var prevUser = localStorage.getItem('prevUser') || "";
+  //   var prevPass = localStorage.getItem('prevPass') || "";
+  //   return {
+  //     prevUser: prevUser,
+  //     prevPass: prevPass
+  //   };
+  // };
+
+  // var setUser = (userName, userPass) => {
+  //   localStorage.setItem('prevUser',userName);
+  //   localStorage.setItem('prevPass', userPass);
+  //   setUserName(userName);
+  //   setUserPass(userPass);
+  // };
+
   useEffect(() => {
     const fetchExpenses = async () => {
       setIsLoading(true);
-
       //Grab expenses from db
       const response = await fetch(
         "https://exp-track-bdba3-default-rtdb.firebaseio.com/expenses.json"
@@ -91,7 +110,6 @@ function App() {
   };
 
   const signInHandler = (enteredUser, enteredPass) => {
-
     enteredUser = enteredUser.trim();
     enteredPass = enteredPass.trim();
     //validate
@@ -133,7 +151,6 @@ function App() {
       alert("Invalid log in, please try again");
       setUserName("");
       setUserPass("");
-      console.log("Sign in Failed");
     };
 
     fetchUsers()
@@ -145,7 +162,6 @@ function App() {
   };
 
   const signUpHandler = (enteredUser, enteredPass) => {
-
     enteredUser = enteredUser.trim();
     enteredPass = enteredPass.trim();
     //validate
@@ -213,6 +229,17 @@ function App() {
       });
   };
 
+  //passed from NewExpense, pass to Expenses
+  const isRemovingHandler = (removing) => {
+    console.log("isRemoving = " + removing);
+    //Should be true all of the time
+    if (removing){
+      setIsRemoving(true);
+    } else{
+      setIsRemoving(false);
+    }
+  };
+
   return (
     <div>
       <Header
@@ -221,8 +248,10 @@ function App() {
         onSignIn={signInHandler}
         onSignUp={signUpHandler}
       />
-      {userName !== "" && <NewExpense userID={userNumber} onGetExpense={addExpenseHandler} />}
-      <Expenses items={expenses} />
+      {userName !== "" && (
+        <NewExpense onIsRemoving={isRemovingHandler} userID={userNumber} onGetExpense={addExpenseHandler} />
+      )}
+      <Expenses removing={isRemoving} items={expenses} />
       {userName === "" && (
         <p style={{ color: "black", textAlign: "center" }}>
           Please sign in to find expenses

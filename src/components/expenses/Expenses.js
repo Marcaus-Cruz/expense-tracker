@@ -19,12 +19,15 @@ function Expenses(props) {
     return expense.date.getFullYear().toString() === year;
   });
 
+  //passed from App, pass to ExpensesList
+  const isRemoving = props.removing;
+
   //return all current year expenses
   return (
     <Card className="expenses">
       <Filter selected={year} onGetYear={getYearHandler} />
       <ExpensesChart expenses={currentYearExpenses} />
-      <ExpensesList items={currentYearExpenses} year={year}/>
+      <ExpensesList removing={isRemoving} items={currentYearExpenses} year={year}/>
     </Card>
   );
 }

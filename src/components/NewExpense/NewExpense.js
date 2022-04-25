@@ -17,7 +17,6 @@ const NewExpense = (props) => {
     const pushNewExpense = async (enteredExpense, userID) => {
       let itemID = 0;
 
-
       //Grab expenses from db
       const response = await fetch(
         "https://exp-track-bdba3-default-rtdb.firebaseio.com/expenses.json"
@@ -29,16 +28,14 @@ const NewExpense = (props) => {
 
       //convert response to json format
       const responseData = await response.json();
-      console.log(responseData);
 
-      if(responseData[userID] === undefined){
-          //do nothing
-      } else{
-         itemID = Object.keys(responseData[userID]).length;
+      // if no items under this user, leave itemID at 0
+      if (responseData[userID] === undefined) {
+        //do nothing
+      } else {
+        // 'auto-increment'
+        itemID = Object.keys(responseData[userID]).length;
       }
-      console.log(responseData[userID]);
-
-      console.log(itemID);
 
       database
         .ref(`expenses/${userID}/${itemID}`)
@@ -47,8 +44,6 @@ const NewExpense = (props) => {
           price: enteredExpense.amount,
         })
         .catch(alert);
-
-        console.log("inserted item");
 
       //set date
       database
@@ -60,21 +55,18 @@ const NewExpense = (props) => {
         })
         .catch(alert);
 
-        console.log("inserted date");
-
       newItemID = itemID;
-      console.log(newItemID);
     }; //endPushNewItem
 
+    //waits for the push to go through successfully before refreshing list
     pushNewExpense(enteredExpense, props.userID)
       .then(() => {
         setIsAdding(false);
-        console.log(newItemID);
+
         const expense = {
           ...enteredExpense,
           id: newItemID,
         };
-        console.log(expense);
 
         //send to App.js for page refresh
         props.onGetExpense(expense);
@@ -94,10 +86,12 @@ const NewExpense = (props) => {
 
   const setRemoveHandler = () => {
     setIsRemoving(true);
+    props.onIsRemoving(true);
   };
 
   const stopRemoveHandler = () => {
     setIsRemoving(false);
+    props.onIsRemoving(false);
   };
 
   return (
