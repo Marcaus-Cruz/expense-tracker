@@ -15,6 +15,9 @@ const NewExpense = (props) => {
   const storeExpenseHandler = (enteredExpense) => {
     // Push Function
     const pushNewExpense = async (enteredExpense, userID) => {
+      const itemID = 0;
+
+
       //Grab expenses from db
       const response = await fetch(
         "https://exp-track-bdba3-default-rtdb.firebaseio.com/expenses.json"
@@ -26,8 +29,16 @@ const NewExpense = (props) => {
 
       //convert response to json format
       const responseData = await response.json();
+      console.log(responseData);
 
-      const itemID = Object.keys(responseData[userID]).length;
+      if(responseData[userID] === undefined){
+          //do nothing
+      } else{
+         itemID = Object.keys(responseData[userID]).length;
+      }
+      console.log(responseData[userID]);
+
+      console.log(itemID);
 
       database
         .ref(`expenses/${userID}/${itemID}`)
@@ -36,6 +47,8 @@ const NewExpense = (props) => {
           price: enteredExpense.amount,
         })
         .catch(alert);
+
+        console.log("inserted item");
 
       //set date
       database
@@ -46,6 +59,9 @@ const NewExpense = (props) => {
           year: enteredExpense.date.getFullYear(),
         })
         .catch(alert);
+
+        console.log("inserted date");
+
       newItemID = itemID;
       console.log(newItemID);
     }; //endPushNewItem
