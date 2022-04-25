@@ -11,13 +11,10 @@ const NewExpense = (props) => {
 
   let newItemID = null;
 
-
   //database insertion
   const storeExpenseHandler = (enteredExpense) => {
     // Push Function
     const pushNewExpense = async (enteredExpense, userID) => {
-      console.log(userID);
-
       //Grab expenses from db
       const response = await fetch(
         "https://exp-track-bdba3-default-rtdb.firebaseio.com/expenses.json"
@@ -32,7 +29,6 @@ const NewExpense = (props) => {
 
       const itemID = Object.keys(responseData[userID]).length;
 
-
       database
         .ref(`expenses/${userID}/${itemID}`)
         .set({
@@ -41,35 +37,36 @@ const NewExpense = (props) => {
         })
         .catch(alert);
 
-        //set date
-        database.ref(`expenses/${userID}/${itemID}/date`).set({
-          //month: enteredExpense.date.toLocaleString("en-US", { month: "long" }),
+      //set date
+      database
+        .ref(`expenses/${userID}/${itemID}/date`)
+        .set({
           month: enteredExpense.date.getMonth(),
           day: enteredExpense.date.toLocaleString("en-US", { day: "2-digit" }),
-          year: enteredExpense.date.getFullYear()
-        }).catch(alert);
-        newItemID = itemID;
+          year: enteredExpense.date.getFullYear(),
+        })
+        .catch(alert);
+      newItemID = itemID;
+      console.log(newItemID);
     }; //endPushNewItem
 
+    pushNewExpense(enteredExpense, props.userID)
+      .then(() => {
+        setIsAdding(false);
+        console.log(newItemID);
+        const expense = {
+          ...enteredExpense,
+          id: newItemID,
+        };
+        console.log(expense);
 
-
-    pushNewExpense(enteredExpense, props.userID).then().catch((error) => {
-      console.log("Something went wrong");
-    })
-    setIsAdding(false);
-    const expense = {
-      ...enteredExpense,
-      id: newItemID
-    };
-
-    //send to App.js for page refresh
-    props.onGetExpense(expense);
+        //send to App.js for page refresh
+        props.onGetExpense(expense);
+      })
+      .catch((error) => {
+        console.log("Something went wrong");
+      });
   };
-
-
-
-
-
 
   const setAddingHandler = () => {
     setIsAdding(true);

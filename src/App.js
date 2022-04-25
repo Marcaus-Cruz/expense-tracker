@@ -40,7 +40,7 @@ function App() {
       for (const key in responseData[userNumber]) {
         console.log(responseData[userNumber][key]);
         loadedExpenses.push({
-          id: responseData[userNumber][key],
+          id: key,
           title: responseData[userNumber][key].name,
           amount: responseData[userNumber][key].price,
           date: new Date(
@@ -50,7 +50,6 @@ function App() {
           ),
         }); //push
       } //for loop
-
       setExpenses(loadedExpenses);
       setIsLoading(false);
     }; //fetchExpenses
@@ -92,16 +91,14 @@ function App() {
   };
 
   const signInHandler = (enteredUser, enteredPass) => {
-    console.log(enteredUser + " " + enteredPass);
 
     enteredUser = enteredUser.trim();
     enteredPass = enteredPass.trim();
     //validate
-    if(enteredUser === "" || enteredPass === ""){
+    if (enteredUser === "" || enteredPass === "") {
       alert("Please make sure you enter a username and password");
       return;
     }
-
 
     setUserName(enteredUser);
     setUserPass(enteredPass);
@@ -123,16 +120,15 @@ function App() {
 
       //check to see if user exists
       for (const key in responseData) {
-        console.log(responseData[key].user + " " + responseData[key].pass);
         if (
           responseData[key].user === enteredUser &&
           responseData[key].pass === enteredPass
         ) {
           setUserNumber(key);
           return;
-        }//endif
-      }//end for
-      
+        } //endif
+      } //end for
+
       //user doesn't exist
       alert("Invalid log in, please try again");
       setUserName("");
@@ -149,73 +145,65 @@ function App() {
   };
 
   const signUpHandler = (enteredUser, enteredPass) => {
-    console.log(enteredUser + " " + enteredPass);
-    
+
     enteredUser = enteredUser.trim();
     enteredPass = enteredPass.trim();
     //validate
-    if(enteredUser === "" || enteredPass === ""){
+    if (enteredUser === "" || enteredPass === "") {
       alert("Please make sure you enter a username and password");
       return;
     }
 
-
     setUserName(enteredUser);
     setUserPass(enteredPass);
 
+    // Push Function
+    const pushNewUser = (enteredUser, enteredPass, newID) => {
+      database
+        .ref(`users/${newID}`)
+        .set({
+          user: enteredUser,
+          pass: enteredPass,
+        })
+        .catch(alert);
+    }; //endPushNewUser
 
-        // Push Function
-        const pushNewUser = (enteredUser, enteredPass, newID) => {
-          console.log(newID);      
-            database
-            .ref(`users/${newID}`)
-            .set({
-              user: enteredUser,
-                pass: enteredPass
-            })
-            .catch(alert);
-        }; //endPushNewUser
+    const fetchUsers = async () => {
+      setIsLoading(true);
 
-      const fetchUsers = async () => {
-        console.log("in fetch users");
-        setIsLoading(true);
+      //Grab users from db
+      const response = await fetch(
+        "https://exp-track-bdba3-default-rtdb.firebaseio.com/users.json"
+      );
 
-        //Grab users from db
-        const response = await fetch(
-          "https://exp-track-bdba3-default-rtdb.firebaseio.com/users.json"
-        );
+      if (!response.ok) {
+        throw new Error("Something went wrong when fetching users!");
+      }
 
-        if (!response.ok) {
-          throw new Error("Something went wrong when fetching users!");
-        }
+      //convert response to json format
+      const responseData = await response.json();
 
-        //convert response to json format
-        const responseData = await response.json();
+      //check to see if user already exists
+      for (const key in responseData) {
+        if (
+          responseData[key].user === enteredUser &&
+          responseData[key].pass === enteredPass
+        ) {
+          setUserName("");
+          setUserPass("");
+          alert("Try signing in, instead.");
+          return;
+        } //if
+      } //for
 
-        //check to see if user already exists
-        for (const key in responseData) {
-          console.log(responseData[key].user + " " + responseData[key].pass);
-          if (
-            responseData[key].user === enteredUser &&
-            responseData[key].pass === enteredPass
-          ) {
-            setUserName("");
-            setUserPass("");
-            alert("Try signing in, instead.");
-            return;
-          }//if
-        }//for
+      //if user does not exist
+      const newID = responseData.length; //auto increment
 
-        //if user does not exist
-        const newID = responseData.length; //auto increment
-        //Already set above
-        // setUserName(enteredUser);
-        // setUserPass(enteredPass);
-        setUserNumber(newID);
+      setUserNumber(newID);
 
-        //push new user
-        pushNewUser(enteredUser, enteredPass, newID);
-      };
+      //push new user
+      pushNewUser(enteredUser, enteredPass, newID);
+    };
 
     fetchUsers()
       .then()
@@ -233,7 +221,7 @@ function App() {
         onSignIn={signInHandler}
         onSignUp={signUpHandler}
       />
-      <NewExpense userID={userNumber} onGetExpense={addExpenseHandler} />
+      {userName !== "" && <NewExpense userID={userNumber} onGetExpense={addExpenseHandler} />}
       <Expenses items={expenses} />
       {userName === "" && (
         <p style={{ color: "black", textAlign: "center" }}>
