@@ -10,20 +10,20 @@ const ExpensesList = (props) => {
     );
   }
 
-  //sort expenses in ascending order 
-  props.items.sort((a,b) => 
-    a.date - b.date
-  );
+  //sort expenses in ascending order
+  props.items.sort((a, b) => a.date - b.date);
 
   return (
     <ul className="expenses-list">
       {props.items.map((expense) => (
         <ExpenseItem
-          removing={props.removing}
           key={expense.id}
+          id={expense.id}
           title={expense.title}
           amount={expense.amount}
           date={expense.date}
+          removing={props.removing}
+          onRemoveItem={props.onRemoveItem}
         />
       ))}
     </ul>

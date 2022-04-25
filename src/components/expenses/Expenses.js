@@ -4,6 +4,7 @@ import ExpensesList from "./ExpensesList";
 import Card from "../UI/Card.js";
 import Filter from "../graphs/Filter";
 import ExpensesChart from "../graphs/ExpensesChart";
+import database from '../../firebase';
 
 import "../css/Expenses.css";
 
@@ -22,12 +23,19 @@ function Expenses(props) {
   //passed from App, pass to ExpensesList
   const isRemoving = props.removing;
 
+  const removeItemHandler = (itemID) => {
+    console.log(itemID);
+
+    //do removing here.
+    //add call to props.onRemoveExpense to refresh list
+  };
+
   //return all current year expenses
   return (
     <Card className="expenses">
       <Filter selected={year} onGetYear={getYearHandler} />
       <ExpensesChart expenses={currentYearExpenses} />
-      <ExpensesList removing={isRemoving} items={currentYearExpenses} year={year}/>
+      <ExpensesList onRemoveItem={removeItemHandler} removing={isRemoving} items={currentYearExpenses} year={year}/>
     </Card>
   );
 }
