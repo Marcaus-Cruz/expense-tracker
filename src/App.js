@@ -57,7 +57,6 @@ function App() {
       const loadedExpenses = [];
 
       for (const key in responseData[userNumber]) {
-        console.log(responseData[userNumber][key]);
         if (responseData[userNumber][key]) {
           loadedExpenses.push({
             id: key,
@@ -107,14 +106,10 @@ function App() {
 
   const removeExpenseHandler = (expenseID) => {
     setExpenses((prevExpenses) => {
-      console.log(prevExpenses);
       var filtered = prevExpenses.filter((expense) => {
         return expense.id !== expenseID;
       });
-      console.log(filtered);
-      console.log(...filtered);
       return [...filtered];
-      //return filtered;
     });
   };
 
@@ -220,13 +215,10 @@ function App() {
 
       //check to see if user already exists
       for (const key in responseData) {
-        console.log(key);
-        console.log(responseData[key]);
-        if (responseData[key] === null) {
+        if (!responseData[key]) {
           //do nothing
         } else {
           if (
-            key !== undefined &&
             responseData[key].user === enteredUser &&
             responseData[key].pass === enteredPass
           ) {

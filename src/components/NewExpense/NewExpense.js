@@ -30,12 +30,11 @@ const NewExpense = (props) => {
       const responseData = await response.json();
 
       // if no items under this user, leave itemID at 0
-      if (responseData[userID] === undefined) {
+      if (!responseData[userID]) {
         //do nothing
       } else {
         // 'auto-increment'
         itemID = Math.max(...Object.keys(responseData[userID])) + 1;
-        console.log(itemID);
       }
 
       database
@@ -73,7 +72,7 @@ const NewExpense = (props) => {
         props.onGetExpense(expense);
       })
       .catch((error) => {
-        console.log("Something went wrong");
+        console.log(error);
       });
   };
 

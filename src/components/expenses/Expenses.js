@@ -24,8 +24,7 @@ function Expenses(props) {
   const isRemoving = props.removing;
 
   const removeItemHandler = (itemID) => {
-    console.log(itemID);
-    //props.userID
+
     //do removing here
     const removeExpense = async (userID, itemID) => {
 
@@ -37,10 +36,10 @@ function Expenses(props) {
 
     }; 
 
+    //add call to props.onRemoveExpense to refresh list
     removeExpense(props.userID, itemID).then(() => {
       props.onRemoveExpense(itemID);
     });
-    //add call to props.onRemoveExpense to refresh list
   };
 
   //return all current year expenses
