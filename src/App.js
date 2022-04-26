@@ -58,16 +58,18 @@ function App() {
 
       for (const key in responseData[userNumber]) {
         console.log(responseData[userNumber][key]);
-        loadedExpenses.push({
-          id: key,
-          title: responseData[userNumber][key].name,
-          amount: responseData[userNumber][key].price,
-          date: new Date(
-            responseData[userNumber][key].date.year,
-            responseData[userNumber][key].date.month,
-            responseData[userNumber][key].date.day
-          ),
-        }); //push
+        if (responseData[userNumber][key]) {
+          loadedExpenses.push({
+            id: key,
+            title: responseData[userNumber][key].name,
+            amount: responseData[userNumber][key].price,
+            date: new Date(
+              responseData[userNumber][key].date.year,
+              responseData[userNumber][key].date.month,
+              responseData[userNumber][key].date.day
+            ),
+          }); //push
+        }
       } //for loop
       setExpenses(loadedExpenses);
       setIsLoading(false);
@@ -100,6 +102,19 @@ function App() {
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
+    });
+  };
+
+  const removeExpenseHandler = (expenseID) => {
+    setExpenses((prevExpenses) => {
+      console.log(prevExpenses);
+      var filtered = prevExpenses.filter((expense) => {
+        return expense.id !== expenseID;
+      });
+      console.log(filtered);
+      console.log(...filtered);
+      return [...filtered];
+      //return filtered;
     });
   };
 
@@ -138,12 +153,16 @@ function App() {
 
       //check to see if user exists
       for (const key in responseData) {
-        if (
-          responseData[key].user === enteredUser &&
-          responseData[key].pass === enteredPass
-        ) {
-          setUserNumber(key);
-          return;
+        if (responseData[key] === null) {
+          //do nothing - else it will fail to read
+        } else {
+          if (
+            responseData[key].user === enteredUser &&
+            responseData[key].pass === enteredPass
+          ) {
+            setUserNumber(key);
+            return;
+          } //if
         } //endif
       } //end for
 
@@ -201,19 +220,26 @@ function App() {
 
       //check to see if user already exists
       for (const key in responseData) {
-        if (
-          responseData[key].user === enteredUser &&
-          responseData[key].pass === enteredPass
-        ) {
-          setUserName("");
-          setUserPass("");
-          alert("Try signing in, instead.");
-          return;
+        console.log(key);
+        console.log(responseData[key]);
+        if (responseData[key] === null) {
+          //do nothing
+        } else {
+          if (
+            key !== undefined &&
+            responseData[key].user === enteredUser &&
+            responseData[key].pass === enteredPass
+          ) {
+            setUserName("");
+            setUserPass("");
+            alert("Try signing in, instead.");
+            return;
+          } //if
         } //if
       } //for
 
       //if user does not exist
-      const newID = responseData.length; //auto increment
+      const newID = Math.max(...Object.keys(responseData)) + 1; //auto increment
 
       setUserNumber(newID);
 
@@ -233,9 +259,9 @@ function App() {
   const isRemovingHandler = (removing) => {
     console.log("isRemoving = " + removing);
     //Should be true all of the time
-    if (removing){
+    if (removing) {
       setIsRemoving(true);
-    } else{
+    } else {
       setIsRemoving(false);
     }
   };
@@ -249,9 +275,18 @@ function App() {
         onSignUp={signUpHandler}
       />
       {userName !== "" && (
-        <NewExpense onIsRemoving={isRemovingHandler} userID={userNumber} onGetExpense={addExpenseHandler} />
+        <NewExpense
+          onIsRemoving={isRemovingHandler}
+          userID={userNumber}
+          onGetExpense={addExpenseHandler}
+        />
       )}
-      <Expenses removing={isRemoving} items={expenses} />
+      <Expenses
+        onRemoveExpense={removeExpenseHandler}
+        userID={userNumber}
+        removing={isRemoving}
+        items={expenses}
+      />
       {userName === "" && (
         <p style={{ color: "black", textAlign: "center" }}>
           Please sign in to find expenses

@@ -25,8 +25,21 @@ function Expenses(props) {
 
   const removeItemHandler = (itemID) => {
     console.log(itemID);
+    //props.userID
+    //do removing here
+    const removeExpense = async (userID, itemID) => {
 
-    //do removing here.
+        database.ref(`expenses/${userID}/${itemID}`).remove().then(() => {
+          console.log("remove successful");
+        }).catch((error) => {
+          console.log(error);
+        });
+
+    }; 
+
+    removeExpense(props.userID, itemID).then(() => {
+      props.onRemoveExpense(itemID);
+    });
     //add call to props.onRemoveExpense to refresh list
   };
 

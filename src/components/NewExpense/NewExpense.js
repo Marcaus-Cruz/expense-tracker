@@ -34,7 +34,8 @@ const NewExpense = (props) => {
         //do nothing
       } else {
         // 'auto-increment'
-        itemID = Object.keys(responseData[userID]).length;
+        itemID = Math.max(...Object.keys(responseData[userID])) + 1;
+        console.log(itemID);
       }
 
       database
@@ -49,9 +50,9 @@ const NewExpense = (props) => {
       database
         .ref(`expenses/${userID}/${itemID}/date`)
         .set({
-          month: enteredExpense.date.getMonth(),
-          day: enteredExpense.date.toLocaleString("en-US", { day: "2-digit" }),
-          year: enteredExpense.date.getFullYear(),
+          month: enteredExpense.date.getUTCMonth(),
+          day: enteredExpense.date.getUTCDate(),
+          year: enteredExpense.date.getUTCFullYear(),
         })
         .catch(alert);
 
