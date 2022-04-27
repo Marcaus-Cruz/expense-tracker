@@ -42,7 +42,7 @@ function EditExpenseItem(props) {
             X
           </button>
         }
-        <ExpenseDate date={props.date} />
+        <ExpenseDate removing={props.removing} date={props.date} />
         <input
           type="date"
           value={enteredDate}

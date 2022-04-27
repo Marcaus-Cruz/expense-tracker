@@ -23,9 +23,6 @@ const ExpensesList = (props) => {
           title={expense.title}
           amount={expense.amount}
           date={expense.date}
-          //wont need these two once edit item component is implemented
-          //removing={props.removing}
-          //onRemoveItem={props.onRemoveItem}
         />
       ))}
 

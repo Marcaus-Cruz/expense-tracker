@@ -98,7 +98,6 @@ const NewExpense = (props) => {
     <div className="new-expense">
       {!isAdding && !isRemoving && (
         <div>
-          {/* TODO: Add editing capabilities to remove */}
           <button onClick={setRemoveHandler}>Remove Expense</button>{" "}
           <button onClick={setAddingHandler}>Add Expense</button>
         </div>
