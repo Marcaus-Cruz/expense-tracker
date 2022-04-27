@@ -1,4 +1,5 @@
 import ExpenseItem from "./ExpenseItem";
+import EditExpenseItem from "./EditExpenseItem";
 import "../css/ExpensesList.css";
 
 const ExpensesList = (props) => {
@@ -15,8 +16,20 @@ const ExpensesList = (props) => {
 
   return (
     <ul className="expenses-list">
-      {props.items.map((expense) => (
+      {!props.removing && props.items.map((expense) => (
         <ExpenseItem
+          key={expense.id}
+          id={expense.id}
+          title={expense.title}
+          amount={expense.amount}
+          date={expense.date}
+          //wont need these two once edit item component is implemented
+          //removing={props.removing}
+          //onRemoveItem={props.onRemoveItem}
+        />
+      ))}
+
+      {props.removing && props.items.map((expense) => ( <EditExpenseItem
           key={expense.id}
           id={expense.id}
           title={expense.title}
@@ -24,8 +37,7 @@ const ExpensesList = (props) => {
           date={expense.date}
           removing={props.removing}
           onRemoveItem={props.onRemoveItem}
-        />
-      ))}
+        /> ))}
     </ul>
   );
 };
