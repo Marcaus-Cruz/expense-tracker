@@ -21,11 +21,11 @@ function Expenses(props) {
   });
 
   //passed from App, pass to ExpensesList
-  const isRemoving = props.removing;
+  const isEditing = props.editing;
 
   const removeItemHandler = (itemID) => {
 
-    //do removing here
+    //do removal here
     const removeExpense = async (userID, itemID) => {
 
         database.ref(`expenses/${userID}/${itemID}`).remove().then(() => {
@@ -47,7 +47,7 @@ function Expenses(props) {
     <Card className="expenses">
       <Filter selected={year} onGetYear={getYearHandler} />
       <ExpensesChart expenses={currentYearExpenses} />
-      <ExpensesList onRemoveItem={removeItemHandler} removing={isRemoving} items={currentYearExpenses} year={year}/>
+      <ExpensesList onRemoveItem={removeItemHandler} editing={isEditing} items={currentYearExpenses} year={year}/>
     </Card>
   );
 }

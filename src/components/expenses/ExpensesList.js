@@ -16,7 +16,7 @@ const ExpensesList = (props) => {
 
   return (
     <ul className="expenses-list">
-      {!props.removing && props.items.map((expense) => (
+      {!props.editing && props.items.map((expense) => (
         <ExpenseItem
           key={expense.id}
           id={expense.id}
@@ -26,13 +26,13 @@ const ExpensesList = (props) => {
         />
       ))}
 
-      {props.removing && props.items.map((expense) => ( <EditExpenseItem
+      {props.editing && props.items.map((expense) => ( <EditExpenseItem
           key={expense.id}
           id={expense.id}
           title={expense.title}
           amount={expense.amount}
           date={expense.date}
-          removing={props.removing}
+          editing={props.editing}
           onRemoveItem={props.onRemoveItem}
         /> ))}
     </ul>

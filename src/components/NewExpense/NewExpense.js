@@ -7,7 +7,7 @@ import database from "../../firebase";
 
 const NewExpense = (props) => {
   const [isAdding, setIsAdding] = useState(false);
-  const [isRemoving, setIsRemoving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   let newItemID = null;
 
@@ -84,35 +84,43 @@ const NewExpense = (props) => {
     setIsAdding(false);
   };
 
-  const setRemoveHandler = () => {
-    setIsRemoving(true);
-    props.onIsRemoving(true);
+  const setEditHandler = () => {
+    setIsEditing(true);
+    props.onIsEditing(true);
   };
 
-  const stopRemoveHandler = () => {
-    setIsRemoving(false);
-    props.onIsRemoving(false);
+  const stopEditHandler = () => {
+    setIsEditing(false);
+    props.onIsEditing(false);
+  };
+
+
+  //submit edits
+  const submitEditHandler = () => {
+    setIsEditing(false);
+    //props.submitEdits;
   };
 
   return (
     <div className="new-expense">
-      {!isAdding && !isRemoving && (
+      {!isAdding && !isEditing && (
         <div>
-          <button onClick={setRemoveHandler}>Remove Expense</button>{" "}
+          <button onClick={setEditHandler}>Edit</button>{" "}
           <button onClick={setAddingHandler}>Add Expense</button>
         </div>
       )}
-      {isAdding && !isRemoving && (
+      {isAdding && !isEditing && (
         <ExpenseForm
           onStoreExpense={storeExpenseHandler}
           onCancel={stopAddingHandler}
         />
       )}
-      {isRemoving && (
+      {isEditing && (
         <div>
           {" "}
-          <h3>Which expense would you like to remove?</h3>{" "}
-          <button onClick={stopRemoveHandler}>Cancel</button>{" "}
+          <h3>Which expense(s) would you like to edit?</h3>{" "}
+          <button onClick={stopEditHandler}>Cancel</button>{" "}
+          <button onClick={submitEditHandler}>Confirm</button>
         </div>
       )}
     </div>

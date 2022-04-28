@@ -19,7 +19,7 @@ function App() {
 
   const [userPass, setUserPass] = useState("cruz");
 
-  const [isRemoving, setIsRemoving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   // persistent data upon page refresh
   //
@@ -248,13 +248,13 @@ function App() {
   };
 
   //passed from NewExpense, pass to Expenses
-  const isRemovingHandler = (removing) => {
-    console.log("isRemoving = " + removing);
+  const isEditingHandler = (editing) => {
+    console.log("isEditing = " + editing);
     //Should be true all of the time
-    if (removing) {
-      setIsRemoving(true);
+    if (editing) {
+      setIsEditing(true);
     } else {
-      setIsRemoving(false);
+      setIsEditing(false);
     }
   };
 
@@ -268,7 +268,7 @@ function App() {
       />
       {userName !== "" && (
         <NewExpense
-          onIsRemoving={isRemovingHandler}
+          onIsEditing={isEditingHandler}
           userID={userNumber}
           onGetExpense={addExpenseHandler}
         />
@@ -276,7 +276,7 @@ function App() {
       <Expenses
         onRemoveExpense={removeExpenseHandler}
         userID={userNumber}
-        removing={isRemoving}
+        editing={isEditing}
         items={expenses}
       />
       {userName === "" && (
