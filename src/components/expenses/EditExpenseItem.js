@@ -43,24 +43,15 @@ function EditExpenseItem(props) {
           </button>
         }
         <ExpenseDate removing={props.removing} date={props.date} />
-        <input
-          type="date"
-          value={enteredDate}
-          min="2020-01-01"
-          max="2030-12-31"
-          onChange={dateChangeHandler}
-        />
         <div className="expense-item__description">
-            <label>Name</label>
-          <input type="text" value={enteredTitle} onChange={titleChangeHandler} />
+          <input className="expense-item__description__edit" type="text" value={enteredTitle} onChange={titleChangeHandler} />
            <div className="expense-item__price">
-               <label>Amount</label>
+               <label>$</label>
             <input
               type="number"
               value={enteredAmount}
               min=".01"
               step=".01"
-              placeholder={enteredAmount}
               onChange={amountChangeHandler}
             />
            </div> 
