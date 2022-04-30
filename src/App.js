@@ -113,6 +113,14 @@ function App() {
     });
   };
 
+  //combines removeExpenseHandler and addExpenseHandler to refresh internal list
+  //when changing an exspense but keeping the same id
+  const changeExpenseHandler = (expense) => {
+      removeExpenseHandler(expense.id);
+      addExpenseHandler(expense);
+    
+  };
+
   const signOutHandler = () => {
     setUserNumber();
     setUserName("");
@@ -250,7 +258,6 @@ function App() {
   //passed from NewExpense, pass to Expenses
   const isEditingHandler = (editing) => {
     console.log("isEditing = " + editing);
-    //Should be true all of the time
     if (editing) {
       setIsEditing(true);
     } else {
@@ -277,6 +284,7 @@ function App() {
         onRemoveExpense={removeExpenseHandler}
         userID={userNumber}
         editing={isEditing}
+        onRefreshExpenses={changeExpenseHandler}
         items={expenses}
       />
       {userName === "" && (

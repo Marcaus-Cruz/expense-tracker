@@ -27,12 +27,25 @@ const ExpenseForm = (props) => {
     //prevents HTTP request from server
     event.preventDefault();
 
+    let itemID = -1;
+
+    if(props.editing){
+      itemID = props.itemID
+    }
+
+    console.log(itemID);
+
     //create object with all data entered
     const newExpenseData = {
+      id: itemID,
       title: enteredTitle,
       amount: +enteredAmount,
       date: new Date(enteredDate),
     };
+
+    console.log(newExpenseData.id);
+
+    //validate more here
 
     //checks if title is entered. If not, prevent submission.
     if(newExpenseData.title.trim() === ''){
@@ -41,11 +54,16 @@ const ExpenseForm = (props) => {
     }
 
     if(props.editing){
-      console.log("saved");
+      console.log("editing");
+      props.onCancel();
     } else{
-    //Send to NewExpense by calling that prop function associated with expense form
-    props.onStoreExpense(newExpenseData);
+      console.log("adding");
+      //props.onStoreExpense(newExpenseData)
     }
+    
+    //Send to NewExpense by calling that prop function associated with expense form
+    // or send to Expense item -> expensesList -> expenses to update item if editing
+    props.onStoreExpense(newExpenseData);
 
     //Reset form for new expense
     setEnteredTitle("");

@@ -17,10 +17,6 @@ function ExpenseItem(props) {
   };
 
   const stopEditHandler = () => {
-    // const stopEditHandler = () => {
-    //   setIsEditing(false);
-    //   props.onIsEditing(false);
-    // };
     setShowForm(false);
     console.log("Stop Editing");
   }
@@ -43,7 +39,7 @@ function ExpenseItem(props) {
             <div className="expense-item__price">${props.amount}</div>
           </div>
         </Card>
-        {showForm && <ExpenseForm editing={props.editing} onCancel={stopEditHandler}/>}
+        {showForm && <ExpenseForm itemID={props.id} editing={props.editing} onStoreExpense={props.onStoreExpense} onCancel={stopEditHandler}/>}
       </li>
     );
   } else {

@@ -23,6 +23,7 @@ const ExpensesList = (props) => {
           date={expense.date}
           editing={props.editing}
           onRemoveItem={props.onRemoveItem}
+          onStoreExpense={props.onStoreExpense}
         /> ))}
     </ul>
   );
