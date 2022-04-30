@@ -1,5 +1,4 @@
 import ExpenseItem from "./ExpenseItem";
-import EditExpenseItem from "./EditExpenseItem";
 import "../css/ExpensesList.css";
 
 const ExpensesList = (props) => {
@@ -16,17 +15,7 @@ const ExpensesList = (props) => {
 
   return (
     <ul className="expenses-list">
-      {!props.editing && props.items.map((expense) => (
-        <ExpenseItem
-          key={expense.id}
-          id={expense.id}
-          title={expense.title}
-          amount={expense.amount}
-          date={expense.date}
-        />
-      ))}
-
-      {props.editing && props.items.map((expense) => ( <EditExpenseItem
+      {props.items.map((expense) => ( <ExpenseItem
           key={expense.id}
           id={expense.id}
           title={expense.title}
