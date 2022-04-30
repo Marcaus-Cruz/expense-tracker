@@ -40,8 +40,12 @@ const ExpenseForm = (props) => {
       return false;
     }
 
+    if(props.editing){
+      console.log("saved");
+    } else{
     //Send to NewExpense by calling that prop function associated with expense form
     props.onStoreExpense(newExpenseData);
+    }
 
     //Reset form for new expense
     setEnteredTitle("");
