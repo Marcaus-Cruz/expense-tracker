@@ -39,7 +39,7 @@ function ExpenseItem(props) {
             <div className="expense-item__price">${props.amount}</div>
           </div>
         </Card>
-        {showForm && <ExpenseForm itemID={props.id} editing={props.editing} onStoreExpense={props.onStoreExpense} onCancel={stopEditHandler}/>}
+        {showForm && <ExpenseForm itemID={props.id} date={props.date} title={props.title} amount={props.amount} editing={props.editing} onStoreExpense={props.onStoreExpense} onCancel={stopEditHandler}/>}
       </li>
     );
   } else {

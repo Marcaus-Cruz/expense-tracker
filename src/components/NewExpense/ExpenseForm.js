@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import "../css/ExpenseForm.css";
 
+//TODO: Get data from props to start form
 //getting props from NewExpense
 const ExpenseForm = (props) => {
   //Title event listener
@@ -15,7 +16,7 @@ const ExpenseForm = (props) => {
   const amountChangeHandler = (event) => {
     setEnteredAmount(event.target.value);
   };
-
+  
   //Date event listener
   const [enteredDate, setEnteredDate] = useState("");
   const dateChangeHandler = (event) => {
@@ -33,8 +34,6 @@ const ExpenseForm = (props) => {
       itemID = props.itemID
     }
 
-    console.log(itemID);
-
     //create object with all data entered
     const newExpenseData = {
       id: itemID,
@@ -43,9 +42,16 @@ const ExpenseForm = (props) => {
       date: new Date(enteredDate),
     };
 
-    console.log(newExpenseData.id);
-
     //validate more here
+    if(!enteredDate){
+      alert("Please enter a date");
+      return false;
+    }
+
+    if(enteredAmount < .01){
+      alert("Enter an amount")
+      return false;
+    }
 
     //checks if title is entered. If not, prevent submission.
     if(newExpenseData.title.trim() === ''){
@@ -54,12 +60,8 @@ const ExpenseForm = (props) => {
     }
 
     if(props.editing){
-      console.log("editing");
       props.onCancel();
-    } else{
-      console.log("adding");
-      //props.onStoreExpense(newExpenseData)
-    }
+    } 
     
     //Send to NewExpense by calling that prop function associated with expense form
     // or send to Expense item -> expensesList -> expenses to update item if editing
@@ -80,6 +82,7 @@ const ExpenseForm = (props) => {
         <div className="new-expense__control">
           <label>Title</label>
           <input
+          required="true"
           placeholder="Expense Name"
             type="text"
             value={enteredTitle}
@@ -90,6 +93,7 @@ const ExpenseForm = (props) => {
           <label>Amount</label>
           ${" "}
           <input
+          required="true"
             type="number"
             value={enteredAmount}
             min=".01"
@@ -101,6 +105,7 @@ const ExpenseForm = (props) => {
         <div className="new-expense__control">
           <label>Date</label>
           <input
+          required="true"
             type="date"
             value={enteredDate}
             min="2020-01-01"

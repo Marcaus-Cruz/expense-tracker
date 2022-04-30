@@ -13,11 +13,11 @@ function App() {
 
   const [httpError, setHttpError] = useState(false);
 
-  const [userNumber, setUserNumber] = useState(0);
+  const [userNumber, setUserNumber] = useState();
 
-  const [userName, setUserName] = useState("marcaus");
+  const [userName, setUserName] = useState("");
 
-  const [userPass, setUserPass] = useState("cruz");
+  const [userPass, setUserPass] = useState("");
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -118,7 +118,6 @@ function App() {
   const changeExpenseHandler = (expense) => {
       removeExpenseHandler(expense.id);
       addExpenseHandler(expense);
-    
   };
 
   const signOutHandler = () => {
