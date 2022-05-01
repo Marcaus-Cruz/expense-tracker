@@ -94,19 +94,12 @@ const NewExpense = (props) => {
     props.onIsEditing(false);
   };
 
-
-  //submit edits
-  const submitEditHandler = () => {
-    setIsEditing(false);
-    //props.submitEdits;
-  };
-
   return (
-    <div className="new-expense">
+     <div className="new-expense"> 
       {!isAdding && !isEditing && (
         <div>
-          <button onClick={setEditHandler}>Edit</button>{" "}
           <button onClick={setAddingHandler}>Add Expense</button>
+          <button onClick={setEditHandler}>Edit</button>{" "}
         </div>
       )}
       {isAdding && !isEditing && (
@@ -119,11 +112,10 @@ const NewExpense = (props) => {
         <div>
           {" "}
           <h3>Which expense(s) would you like to edit?</h3>{" "}
-          <button onClick={stopEditHandler}>Cancel</button>{" "}
-          <button onClick={submitEditHandler}>Confirm</button>
+          <button onClick={stopEditHandler}>Done</button>{" "}
         </div>
       )}
-    </div>
+     </div> 
   );
 };
 

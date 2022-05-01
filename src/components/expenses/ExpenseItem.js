@@ -16,14 +16,14 @@ function ExpenseItem(props) {
     props.onRemoveItem(props.id);
   };
 
-  const stopEditHandler = () => {
-    setShowForm(false);
-    console.log("Stop Editing");
-  }
-
   const showFormHandler = () => {
-    setShowForm(true);
-  }
+    //if editing is in process, click edit to cancel out
+    if (showForm) {
+      setShowForm(false);
+    } else {
+      setShowForm(true);
+    }
+  };
 
   if (props.editing) {
     return (
@@ -32,14 +32,26 @@ function ExpenseItem(props) {
           <button className="removeBtn" onClick={removeHandler}>
             X
           </button>
-          <button className="editBtn" onClick={showFormHandler}>edit</button>
+          <button className="editBtn" onClick={showFormHandler}>
+            edit
+          </button>
           <ExpenseDate date={props.date} />
           <div className="expense-item__description">
             <h2>{props.title}</h2>
             <div className="expense-item__price">${props.amount}</div>
           </div>
         </Card>
-        {showForm && <ExpenseForm itemID={props.id} date={props.date} title={props.title} amount={props.amount} editing={props.editing} onStoreExpense={props.onStoreExpense} onCancel={stopEditHandler}/>}
+        {showForm && (
+          <ExpenseForm
+            itemID={props.id}
+            date={props.date}
+            title={props.title}
+            amount={props.amount}
+            editing={props.editing}
+            onStoreExpense={props.onStoreExpense}
+            onCancel={showFormHandler}
+          />
+        )}
       </li>
     );
   } else {

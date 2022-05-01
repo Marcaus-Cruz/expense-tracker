@@ -2,8 +2,7 @@ import { useState } from "react";
 
 import "../css/ExpenseForm.css";
 
-//TODO: Get data from props to start form
-//getting props from NewExpense
+//getting props from NewExpense or ExpenseItem
 const ExpenseForm = (props) => {
   //Title event listener
   const [enteredTitle, setEnteredTitle] = useState(props.editing ? props.title : "");
@@ -42,22 +41,7 @@ const ExpenseForm = (props) => {
       date: new Date(enteredDate),
     };
 
-    //validate more here
-    if(!enteredDate){
-      alert("Please enter a date");
-      return false;
-    }
-
-    if(enteredAmount < .01){
-      alert("Enter an amount")
-      return false;
-    }
-
-    //checks if title is entered. If not, prevent submission.
-    if(newExpenseData.title.trim() === ''){
-      alert("Must enter a title for this expense");
-      return false;
-    }
+    //validate here if requires don't work
 
     if(props.editing){
       props.onCancel();
@@ -73,10 +57,17 @@ const ExpenseForm = (props) => {
     setEnteredDate("");
   };
 
+  var heading = "New Expense";
+  var submitBtnText = "Add";
+  if(props.editing){
+    heading = "";
+    submitBtnText = "Save";
+  }
+
   return (
     <form onSubmit={submitHandler}>
       <div className="form-title">
-        <h2>New Expense</h2>
+        <h2>{heading}</h2>
       </div>
       <div className="new-expense__controls">
         <div className="new-expense__control">
@@ -116,8 +107,8 @@ const ExpenseForm = (props) => {
       </div>
       <div className="new-expense__actions">
         {/*  */}
-        <button type="button" onClick={props.onCancel}>Cancel</button>
-        <button type="submit">Add</button>
+        <button id="cancelBtn" type="button" onClick={props.onCancel}>Cancel</button>
+        <button type="submit">{submitBtnText}</button>
       </div>
     </form>
   );

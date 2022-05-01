@@ -45,7 +45,6 @@ function Expenses(props) {
 
   //push edit here
   const editExpenseHandler = (enteredExpense) => {
-    console.log("In editExpenseHandler!");
 
     //add new expense here
     const pushChangedItem = async (enteredExpense, userID) => {
@@ -72,18 +71,6 @@ function Expenses(props) {
     //call pushChangedItem and refresh page
     pushChangedItem(enteredExpense, props.userID)
       .then(() => {
-        //2 ways: remove, then add in app || remove and add in same method in app
-
-        //1)
-        //remove that item from internal list and refresh
-        // removeExpense(props.userID, props.id).then(() => {
-        //   props.onRemoveExpense(props.id);
-        // });
-
-        // //add item to internal list and refresh
-        // props.onRefreshExpenses(enteredExpense);
-
-        //2)
         props.onRefreshExpenses(enteredExpense);
 
       })
