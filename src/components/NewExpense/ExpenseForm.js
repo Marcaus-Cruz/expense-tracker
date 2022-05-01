@@ -6,19 +6,19 @@ import "../css/ExpenseForm.css";
 //getting props from NewExpense
 const ExpenseForm = (props) => {
   //Title event listener
-  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState(props.editing ? props.title : "");
   const titleChangeHandler = (event) => {
     setEnteredTitle(event.target.value);
   };
 
   //Amount event listener
-  const [enteredAmount, setEnteredAmount] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState(props.editing ? props.amount : "");
   const amountChangeHandler = (event) => {
     setEnteredAmount(event.target.value);
   };
   
   //Date event listener
-  const [enteredDate, setEnteredDate] = useState("");
+  const [enteredDate, setEnteredDate] = useState(props.editing ? props.date : "");
   const dateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
   };
@@ -82,7 +82,7 @@ const ExpenseForm = (props) => {
         <div className="new-expense__control">
           <label>Title</label>
           <input
-          required="true"
+          required={true}
           placeholder="Expense Name"
             type="text"
             value={enteredTitle}
@@ -93,7 +93,7 @@ const ExpenseForm = (props) => {
           <label>Amount</label>
           ${" "}
           <input
-          required="true"
+          required={true}
             type="number"
             value={enteredAmount}
             min=".01"
@@ -105,7 +105,7 @@ const ExpenseForm = (props) => {
         <div className="new-expense__control">
           <label>Date</label>
           <input
-          required="true"
+          required={true}
             type="date"
             value={enteredDate}
             min="2020-01-01"

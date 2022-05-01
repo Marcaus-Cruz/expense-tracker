@@ -13,11 +13,11 @@ function App() {
 
   const [httpError, setHttpError] = useState(false);
 
-  const [userNumber, setUserNumber] = useState();
+  const [userNumber, setUserNumber] = useState(0);
 
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("marcaus");
 
-  const [userPass, setUserPass] = useState("");
+  const [userPass, setUserPass] = useState("cruz");
 
   const [isEditing, setIsEditing] = useState(false);
 
