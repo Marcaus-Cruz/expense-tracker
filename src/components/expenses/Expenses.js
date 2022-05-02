@@ -16,38 +16,50 @@ function Expenses(props) {
   };
 
   const [monthIsSelected, setMonthIsSelected] = useState(false);
+  const [currentlySelectedMonths, setCurrentlySelectedMonths] = useState([]);
 
   //State to manage the selected month
-  const [selectedMonth, setSelectedMonth] = useState();
   const getMonthHandler = (monthNum) => {
-    if(monthNum === -1){
+
+    //deselect month
+    if (currentlySelectedMonths.includes(monthNum)) {
       setMonthIsSelected(false);
-      //normal current year expenses
-
-    } else{
+      setCurrentlySelectedMonths((prevMonths) => {
+        const newMonths = prevMonths.filter(month => {
+          return month !== monthNum;
+        });
+        console.log(newMonths);
+        return newMonths;
+      });
+    } 
+    //select month
+    else {
       setMonthIsSelected(true);
-      //filter expenses
+      setCurrentlySelectedMonths((prevMonths) => {
+        return [...prevMonths, monthNum];
+      });
     }
-    setSelectedMonth(monthNum);
-    console.log(selectedMonth);
-
 
   };
 
+  // Use selected year to copy an array to display onto page
   const currentYearExpenses = props.items.filter((expense) => {
     return expense.date.getFullYear().toString() === year;
   });
 
   var currentMonthExpenses;
 
-  if(selectedMonth > 0){
+  if (currentlySelectedMonths.length > 0) {
     currentMonthExpenses = props.items.filter((expense) => {
-      return expense.date.getUTCMonth() === selectedMonth && expense.date.getFullYear().toString() === year;
+      return (
+        currentlySelectedMonths.includes(expense.date.getUTCMonth()) &&
+        expense.date.getFullYear().toString() === year
+      );
     });
-  } else{
-  // Use selected year to copy an array to display onto page
-  currentMonthExpenses = currentYearExpenses;
-}
+  } else {
+    // Use selected year to copy an array to display onto page
+    currentMonthExpenses = currentYearExpenses;
+  }
 
   //passed from App, pass to ExpensesList
   const isEditing = props.editing;
@@ -74,7 +86,6 @@ function Expenses(props) {
 
   //push edit here
   const editExpenseHandler = (enteredExpense) => {
-
     //add new expense here
     const pushChangedItem = async (enteredExpense, userID) => {
       //set new fields
@@ -101,7 +112,6 @@ function Expenses(props) {
     pushChangedItem(enteredExpense, props.userID)
       .then(() => {
         props.onRefreshExpenses(enteredExpense);
-
       })
       .catch((error) => {
         console.log(error);
@@ -112,7 +122,11 @@ function Expenses(props) {
   return (
     <Card className="expenses">
       <Filter selected={year} onGetYear={getYearHandler} />
-      <ExpensesChart expenses={currentYearExpenses} onSelectedMonth={getMonthHandler} monthSelected={monthIsSelected}/>
+      <ExpensesChart
+        expenses={currentYearExpenses}
+        onSelectedMonth={getMonthHandler}
+        monthSelected={monthIsSelected}
+      />
       <ExpensesList
         onStoreExpense={editExpenseHandler}
         onRemoveItem={removeItemHandler}

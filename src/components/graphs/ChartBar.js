@@ -10,7 +10,6 @@ const ChartBar = (props) => {
   }
 
   const [labelClass, setLabelClass] = useState('chart-bar__label deselected');
-  const [selected, setSelected] = useState(false);
 
   const monthHandler = (event) => {
     var prefix = event.target.innerHTML;
@@ -22,16 +21,15 @@ const ChartBar = (props) => {
     //deselect a month
   if(props.monthSelected){
     setLabelClass('chart-bar__label deselected');
-    props.onSelectedMonth(-1);
   } 
   //select month
   else{
-
     setLabelClass('chart-bar__label selected');
-    props.onSelectedMonth(monthNum);
-  }//if 
+  }//endif 
+  
+  props.onSelectedMonth(monthNum);
 
-  }
+  }//month handler
 
 
   return (
