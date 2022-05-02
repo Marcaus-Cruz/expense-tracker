@@ -29,4 +29,12 @@
     font-weight: bold;
     font-size: 1rem;
     text-align: center;
+
+    width: 80px;
+    height: 40px;
+    margin: 0 10px;
+    border: 1px black solid;
+
+    /* for testing */
+    background-color: grey;
   }

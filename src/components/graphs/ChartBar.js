@@ -7,6 +7,10 @@ const ChartBar = (props) => {
     barFillHeight = Math.round((props.value / props.maxValue) * 100) + "%";
   }
 
+  const monthHandler = (event) => {
+    console.log(event.target.innerHTML);
+  }
+
   return (
     <div className="chart-bar">
       <div className="chart-bar__inner">
@@ -15,7 +19,7 @@ const ChartBar = (props) => {
           style={{ height: barFillHeight }}
         ></div>
       </div>
-      <div className="chart-bar__label">{props.label}</div>
+      <div className="chart-bar__label" onClick={monthHandler}>{props.label}</div>
     </div>
   );
 };
