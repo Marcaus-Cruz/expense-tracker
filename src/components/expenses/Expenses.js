@@ -15,6 +15,25 @@ function Expenses(props) {
     setSelectedYear(selectedYear);
   };
 
+  const [monthIsSelected, setMonthIsSelected] = useState(false);
+
+  //State to manage the selected month
+  const [selectedMonth, setSelectedMonth] = useState();
+  const getMonthHandler = (monthNum) => {
+    console.log(monthNum);
+    if(monthNum === -1){
+      setMonthIsSelected(false);
+      //normal current year expenses
+
+    } else{
+      setMonthIsSelected(true);
+      setSelectedMonth(monthNum);
+      //filter expenses
+    }
+
+
+  };
+
   // Use selected year to copy an array to display onto page
   const currentYearExpenses = props.items.filter((expense) => {
     return expense.date.getFullYear().toString() === year;
@@ -83,7 +102,7 @@ function Expenses(props) {
   return (
     <Card className="expenses">
       <Filter selected={year} onGetYear={getYearHandler} />
-      <ExpensesChart expenses={currentYearExpenses} />
+      <ExpensesChart expenses={currentYearExpenses} onSelectedMonth={getMonthHandler} monthSelected={monthIsSelected}/>
       <ExpensesList
         onStoreExpense={editExpenseHandler}
         onRemoveItem={removeItemHandler}

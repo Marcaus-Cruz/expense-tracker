@@ -24,7 +24,7 @@ const ExpensesChart = (props) => {
     chartDataPoints[month].value += expense.amount;
   }
 
-  return <Chart dataPoints={chartDataPoints} />;
+  return <Chart dataPoints={chartDataPoints} monthSelected={props.monthSelected} onSelectedMonth={props.onSelectedMonth}/>;
 };
 
 export default ExpensesChart;

@@ -38,3 +38,16 @@
     /* for testing */
     background-color: grey;
   }
+
+  .chart-bar__label:hover{
+    cursor: pointer;
+    background-color: #95c4c3;
+  }
+
+.selected{
+    background-color: #f5bd45;
+  }
+
+  .deselected{
+    background-color: grey;
+  }
