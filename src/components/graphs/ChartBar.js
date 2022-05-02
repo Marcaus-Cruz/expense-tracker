@@ -10,6 +10,7 @@ const ChartBar = (props) => {
   }
 
   const [labelClass, setLabelClass] = useState('chart-bar__label deselected');
+  const [selected, setSelected] = useState(false);
 
   const monthHandler = (event) => {
     var prefix = event.target.innerHTML;
@@ -21,16 +22,17 @@ const ChartBar = (props) => {
     //deselect a month
   if(props.monthSelected){
     setLabelClass('chart-bar__label deselected');
-    console.log("selected?: " + props.monthSelected + " " + labelClass);
     props.onSelectedMonth(-1);
   } 
-  //month NOW selected
+  //select month
   else{
-  }
+
     setLabelClass('chart-bar__label selected');
-    console.log("selected?: " + props.monthSelected + " " + labelClass);
     props.onSelectedMonth(monthNum);
+  }//if 
+
   }
+
 
   return (
     <div className="chart-bar">
@@ -41,7 +43,6 @@ const ChartBar = (props) => {
         ></div>
       </div>
       <div className={labelClass} onClick={monthHandler}>{props.label}</div>
-      {cancelBtn}
     </div>
   );
 };
