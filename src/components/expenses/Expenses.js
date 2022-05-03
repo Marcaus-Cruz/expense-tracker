@@ -4,6 +4,8 @@ import ExpensesList from "./ExpensesList";
 import Card from "../UI/Card.js";
 import Filter from "../graphs/Filter";
 import ExpensesChart from "../graphs/ExpensesChart";
+import NewExpense from "../NewExpense/NewExpense";
+
 import database from "../../firebase";
 
 import "../css/Expenses.css";
@@ -117,6 +119,11 @@ function Expenses(props) {
   //return all current year expenses
   return (
     <Card className="expenses">
+      {props.userID && <NewExpense
+          onIsEditing={props.onIsEditing}
+          userID={props.userID}
+          onGetExpense={props.onGetExpense}
+        />}
       <Filter selected={year} onGetYear={getYearHandler} />
       <ExpensesChart
         expenses={currentYearExpenses}

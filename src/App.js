@@ -285,19 +285,15 @@ function App() {
         onSignIn={signInHandler}
         onSignUp={signUpHandler}
       />
-      {userName !== "" && (
-        <NewExpense
-          onIsEditing={isEditingHandler}
-          userID={userNumber}
-          onGetExpense={addExpenseHandler}
-        />
-      )}
       <Expenses
         onRemoveExpense={removeExpenseHandler}
         userID={userNumber}
         editing={isEditing}
         onRefreshExpenses={changeExpenseHandler}
         items={expenses}
+
+        onIsEditing={isEditingHandler}
+        onGetExpense={addExpenseHandler}
       />
       {userName === "" && (
         <p style={{ color: "black", textAlign: "center" }}>
