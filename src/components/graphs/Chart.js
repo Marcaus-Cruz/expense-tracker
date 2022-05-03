@@ -15,8 +15,8 @@ const Chart = (props) => {
           maxValue={maxVal}
           label={dataPoint.label}
           key={dataPoint.label}
-          onSelectedMonth={props.onSelectedMonth}
-          monthSelected={props.monthSelected}
+          onSelectMonth={props.onSelectMonth}
+          currentlySelectedMonths={props.currentlySelectedMonths}
         />
       ))}
     </div>

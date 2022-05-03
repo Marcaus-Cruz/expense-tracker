@@ -15,15 +15,13 @@ function Expenses(props) {
     setSelectedYear(selectedYear);
   };
 
-  const [monthIsSelected, setMonthIsSelected] = useState(false);
+  //State to manage selected months
   const [currentlySelectedMonths, setCurrentlySelectedMonths] = useState([]);
 
-  //State to manage the selected month
   const getMonthHandler = (monthNum) => {
 
     //deselect month
     if (currentlySelectedMonths.includes(monthNum)) {
-      setMonthIsSelected(false);
       setCurrentlySelectedMonths((prevMonths) => {
         const newMonths = prevMonths.filter(month => {
           return month !== monthNum;
@@ -34,7 +32,6 @@ function Expenses(props) {
     } 
     //select month
     else {
-      setMonthIsSelected(true);
       setCurrentlySelectedMonths((prevMonths) => {
         return [...prevMonths, monthNum];
       });
@@ -124,8 +121,8 @@ function Expenses(props) {
       <Filter selected={year} onGetYear={getYearHandler} />
       <ExpensesChart
         expenses={currentYearExpenses}
-        onSelectedMonth={getMonthHandler}
-        monthSelected={monthIsSelected}
+        onSelectMonth={getMonthHandler}
+        currentlySelectedMonths={currentlySelectedMonths}
       />
       <ExpensesList
         onStoreExpense={editExpenseHandler}

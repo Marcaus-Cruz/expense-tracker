@@ -30,24 +30,25 @@
     font-size: 1rem;
     text-align: center;
 
-    width: 80px;
-    height: 40px;
-    margin: 0 10px;
-    border: 1px black solid;
-
-    /* for testing */
-    background-color: grey;
+    width: 75px;
+    height: 35px;
+    margin: 5px 10px;
+    border: none;
   }
 
   .chart-bar__label:hover{
     cursor: pointer;
-    background-color: #95c4c3;
+    background-color: #f5bd45;
+    border: 1px black solid;
+    border-radius: 20px;
   }
 
 .selected{
     background-color: #f5bd45;
+    border: 1px black solid;
+    border-radius: 20px;
   }
 
-  .deselected{
-    background-color: grey;
+  .selected:hover{
+    background-color: white;
   }
