@@ -26,7 +26,6 @@ function Expenses(props) {
         const newMonths = prevMonths.filter(month => {
           return month !== monthNum;
         });
-        console.log(newMonths);
         return newMonths;
       });
     } 

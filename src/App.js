@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import Header from "./components/expenses/Header";
+import Header from "./components/UI/Header";
 import Expenses from "./components/expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 
@@ -120,6 +120,22 @@ function App() {
       addExpenseHandler(expense);
   };
 
+
+  const validate = (enteredUser,enteredPass) => {
+    //validate
+    if (enteredUser === "" || enteredPass === "") {
+      alert("Please make sure you enter a username and password");
+      return false;
+    }
+
+    if(enteredUser.length > 29 || enteredPass.length > 29){
+      alert("Username or password cannot exceed 30 characters");
+      return false;
+    }
+
+    return true;
+  }
+
   const signOutHandler = () => {
     setUserNumber();
     setUserName("");
@@ -129,9 +145,8 @@ function App() {
   const signInHandler = (enteredUser, enteredPass) => {
     enteredUser = enteredUser.trim();
     enteredPass = enteredPass.trim();
-    //validate
-    if (enteredUser === "" || enteredPass === "") {
-      alert("Please make sure you enter a username and password");
+    
+    if(!validate(enteredUser, enteredPass)){
       return;
     }
 
@@ -185,9 +200,8 @@ function App() {
   const signUpHandler = (enteredUser, enteredPass) => {
     enteredUser = enteredUser.trim();
     enteredPass = enteredPass.trim();
-    //validate
-    if (enteredUser === "" || enteredPass === "") {
-      alert("Please make sure you enter a username and password");
+    
+    if(!validate(enteredUser, enteredPass)){
       return;
     }
 

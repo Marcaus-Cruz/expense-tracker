@@ -1,6 +1,4 @@
-//import { useState } from "react";
-
-import SignInForm from "../UI/SignInForm";
+import SignInForm from "./SignInForm";
 
 import "../css/Header.css";
 import logoUrl from "../UI/favicon.ico";
@@ -19,8 +17,8 @@ function Header(props) {
       </div>
       {props.username !== "" && (
         <div className="right">
-          <p>{props.username}</p>{" "}
-          <button onClick={props.onSignOut}>Sign Out</button>
+          <p style={{marginRight: "20px"}}>{props.username}</p>
+          <button style={{marginRight: "0px"}} onClick={props.onSignOut}>Sign Out</button>
         </div>
       )}
       {props.username === "" && (
