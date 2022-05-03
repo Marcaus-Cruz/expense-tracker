@@ -136,6 +136,7 @@ function Expenses(props) {
         editing={isEditing}
         items={currentMonthExpenses}
         year={year}
+        months={currentlySelectedMonths}
       />
     </Card>
   );

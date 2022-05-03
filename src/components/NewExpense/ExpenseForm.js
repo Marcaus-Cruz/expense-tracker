@@ -7,6 +7,7 @@ const ExpenseForm = (props) => {
   //Title event listener
   const [enteredTitle, setEnteredTitle] = useState(props.editing ? props.title : "");
   const titleChangeHandler = (event) => {
+    console.log(props.date);
     setEnteredTitle(event.target.value);
   };
 
@@ -17,7 +18,7 @@ const ExpenseForm = (props) => {
   };
   
   //Date event listener
-  const [enteredDate, setEnteredDate] = useState(props.editing ? props.date : "");
+  const [enteredDate, setEnteredDate] = useState(props.editing ? `${props.date.getFullYear()}-${('0' + props.date.getUTCMonth()).slice(-2)}-${('0' + props.date.getUTCDate()).slice(-2)}` : "");
   const dateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
   };
@@ -99,6 +100,7 @@ const ExpenseForm = (props) => {
           required={true}
             type="date"
             value={enteredDate}
+            placeholder={enteredDate}
             min="2020-01-01"
             max="2030-12-31"
             onChange={dateChangeHandler}
