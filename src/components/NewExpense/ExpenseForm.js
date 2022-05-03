@@ -7,7 +7,6 @@ const ExpenseForm = (props) => {
   //Title event listener
   const [enteredTitle, setEnteredTitle] = useState(props.editing ? props.title : "");
   const titleChangeHandler = (event) => {
-    console.log(props.date);
     setEnteredTitle(event.target.value);
   };
 
