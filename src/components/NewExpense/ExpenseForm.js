@@ -17,7 +17,7 @@ const ExpenseForm = (props) => {
   };
   
   //Date event listener
-  const [enteredDate, setEnteredDate] = useState(props.editing ? `${props.date.getFullYear()}-${('0' + props.date.getUTCMonth()).slice(-2)}-${('0' + props.date.getUTCDate()).slice(-2)}` : "");
+  const [enteredDate, setEnteredDate] = useState(props.editing ? `${props.date.getFullYear()}-${('0' + (props.date.getUTCMonth()+1)).slice(-2)}-${('0' + props.date.getUTCDate()).slice(-2)}` : "");
   const dateChangeHandler = (event) => {
     setEnteredDate(event.target.value);
   };

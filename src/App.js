@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 
 import Header from "./components/UI/Header";
 import Expenses from "./components/expenses/Expenses";
-import NewExpense from "./components/NewExpense/NewExpense";
 
 import database from "./firebase";
 
