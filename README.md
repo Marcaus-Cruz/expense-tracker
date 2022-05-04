@@ -12,7 +12,7 @@ I've redesigned the UI of the app to my liking and connected a Firebase REST API
 Features I've added:
 
 - Register User
-The user can input a username and password to register an account. This will insert that user into a users table in the database and automatically log them in upon registration. There is simple error handling and validation, such as the username and password being [1,30] characters long and prompting user to sign in if their entry already exists. I could - but didn't add more robust validation because I'm planning on only showing it off for demonstrative purposes.
+    - The user can input a username and password to register an account. This will insert that user into a users table in the database and automatically log them in upon registration. There is simple error handling and validation, such as the username and password being [1,30] characters long and prompting user to sign in if their entry already exists. I could - but didn't add more robust validation because I'm planning on only showing it off for demonstrative purposes.
 
 - Login User
     - The user is able to log in after creating an account. This also has a character length check for both username and password fields and prompts user a sign in problem if their entry doesn't exist in the users table.
@@ -32,3 +32,4 @@ The user can input a username and password to register an account. This will ins
 - Filter Months
     - I added clickable divs to the labels of the months which filters expenses with any month selected. The user can select and deselect as many months as they want and the list will update accordingly. The initial state is all 12 months unselected, rendering expenses for the entire year that is selected. 
 
+Disclamer: Refractor in process
